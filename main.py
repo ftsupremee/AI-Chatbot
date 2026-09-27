@@ -1,12 +1,14 @@
 import os
 import sys
 
+from pathlib import Path
 from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QScrollArea,
                              QLineEdit, QPushButton, QVBoxLayout)
 from PyQt5.QtCore import Qt
 from groq import Groq
 from dotenv import load_dotenv
-load_dotenv()
+env_path = Path(__file__).resolve().parent / ".env"
+load_dotenv(dotenv_path=env_path, override=True)
 
 class Chatbot(QWidget):
     def __init__(self):
@@ -60,6 +62,7 @@ class Chatbot(QWidget):
                 background-color: #669bb0;
             }
         """)
+        self.prompt.returnPressed.connect(self.get_answer)
         self.get_answer_button.clicked.connect(self.get_answer)
 
     def get_answer(self):
